@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      JAVA_OPTS: "-Xmx4G"
+      SBT_OPTS: "-Dsbt.ci=true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@82da71df4e122282484a99a8d70096bc2369dbd8 # v1.5.9
+
+      - name: Build Java Maven
+        working-directory: java/maven
+        run: ./mvnw --batch-mode -Dstyle.color=always --no-transfer-progress test-compile
+
+      - name: Build Java Gradle
+        working-directory: java/gradle
+        run: ./gradlew gatlingClasses
+
+      - name: Build Kotlin Maven
+        working-directory: kotlin/maven
+        run: ./mvnw --batch-mode -Dstyle.color=always --no-transfer-progress test-compile
+
+      - name: Build Kotlin Gradle
+        working-directory: kotlin/gradle
+        run: ./gradlew gatlingClasses
+
+      - name: Build Scala sbt
+        working-directory: scala/sbt
+        run: sbt Test/compile

@@ -1,0 +1,37 @@
+plugins {
+  idea
+  kotlin("jvm")               version "2.4.20"
+  kotlin("plugin.allopen")    version "2.4.20"
+
+  id("com.diffplug.spotless") version "8.10.2"
+  id("io.gatling.gradle")     version "3.16.0"
+}
+
+tasks.withType(JavaCompile::class) {
+  options.release.set(21)
+}
+
+kotlin {
+  compilerOptions {
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  gatlingImplementation("io.gatling:gatling-graphql-java:3.16.0.1")
+}
+
+gatling {
+  // Enterprise Cloud (https://cloud.gatling.io/) configuration reference: https://docs.gatling.io/reference/integrations/build-tools/gradle-plugin/#running-your-simulations-on-gatling-enterprise-cloud
+}
+
+spotless {
+  kotlin {
+    ktfmt()
+      .googleStyle()
+  }
+}

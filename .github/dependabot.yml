@@ -1,0 +1,47 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    commit-message:
+      prefix: "chore"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday" # explicit, even though it's the weekly default
+      time: "07:00" # UTC
+    cooldown:
+      default-days: 7
+  - package-ecosystem: "gradle"
+    commit-message:
+      prefix: "chore"
+    directories:
+      - "/java/gradle"
+      - "/kotlin/gradle"
+    groups:
+      gatling:
+        patterns:
+          - "io.gatling*"
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin.*"
+    schedule:
+      interval: "weekly"
+      day: "monday" # explicit, even though it's the weekly default
+      time: "07:00" # UTC
+    cooldown:
+      default-days: 7
+  - package-ecosystem: "maven"
+    commit-message:
+      prefix: "chore"
+    directories:
+      - "/java/maven"
+      - "/kotlin/maven"
+    groups:
+      gatling:
+        patterns:
+          - "io.gatling*"
+    schedule:
+      interval: "weekly"
+      day: "monday" # explicit, even though it's the weekly default
+      time: "07:00" # UTC
+    cooldown:
+      default-days: 7
