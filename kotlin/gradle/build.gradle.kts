@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-  gatlingImplementation("io.gatling:gatling-graphql-java:3.16.0.1")
+  gatlingImplementation("io.gatling:gatling-graphql-java:3.16.0.4")
 }
 
 gatling {

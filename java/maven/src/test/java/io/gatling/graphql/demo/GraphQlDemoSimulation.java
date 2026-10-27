@@ -34,15 +34,15 @@ public class GraphQlDemoSimulation extends Simulation {
         .query("query Country($code: ID!) { country(code: $code) { name capital currency } }")
         .variable("code", "#{code}")
         .check(
-          graphqlData.jsonPath("$.country.name").saveAs("name"),
-          graphqlData.jsonPath("$.country.capital").exists()
+          graphql.data.jsonPath("$.country.name").saveAs("name"),
+          graphql.data.jsonPath("$.country.capital").exists()
         )
     )
     .pause(1)
     .exec(
       graphql
         .query("query Continents { continents { code name } }")
-        .check(graphqlData.jsonPath("$.continents[*].name").findAll().exists())
+        .check(graphql.data.jsonPath("$.continents[*].name").findAll().exists())
     );
 
   // ./mvnw gatling:test -Dgatling.simulationClass=io.gatling.graphql.demo.GraphQlDemoSimulation
