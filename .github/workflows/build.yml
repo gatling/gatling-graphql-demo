@@ -31,6 +31,11 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 20
+
       - name: Set up sbt
         uses: sbt/setup-sbt@ecad189dd245444b9ae0a0cd5922fd938b88906f # v1.5.12
 
@@ -41,6 +46,13 @@ jobs:
       - name: Build Java Gradle
         working-directory: java/gradle
         run: ./gradlew gatlingClasses
+
+      - name: Build JavaScript
+        working-directory: javascript
+        run: |
+          npm ci
+          npm run format-check
+          npm run build
 
       - name: Build Kotlin Maven
         working-directory: kotlin/maven
@@ -53,3 +65,10 @@ jobs:
       - name: Build Scala sbt
         working-directory: scala/sbt
         run: sbt Test/compile
+
+      - name: Build TypeScript
+        working-directory: typescript
+        run: |
+          npm ci
+          npm run format-check
+          npm run build
