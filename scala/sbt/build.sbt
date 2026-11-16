@@ -1,5 +1,5 @@
-val gatlingVersion = "3.16.0"
-val gatlingGraphqlVersion = "3.16.0.4"
+val gatlingVersion = "3.16.1"
+val gatlingGraphqlVersion = "3.16.1.1"
 
 lazy val gatlingSbtPluginDemo = rootProject
   .enablePlugins(GatlingPlugin)
